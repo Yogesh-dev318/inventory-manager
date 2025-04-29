@@ -37,20 +37,28 @@ const SidebarLink = ({
   return (
     <Link href={href}>
       <div
-        className={`cursor-pointer flex items-center ${
-          isCollapsed ? "justify-center py-4" : "justify-start px-8 py-4"
-        }
-        hover:text-blue-500 hover:bg-blue-100 gap-3 transition-colors ${
-          isActive ? "bg-blue-200 text-white" : ""
-        }
-      }`}
+        className={`group flex items-center gap-3 px-6 py-3.5 transition-all duration-200
+          ${
+            isCollapsed 
+              ? "justify-center mx-2 rounded-lg" 
+              : "justify-start"
+          }
+          ${
+            isActive
+              ? "bg-blue-100/20 text-white border-l-4 border-blue-400"
+              : "text-gray-300 hover:bg-blue-100/10 hover:text-white"
+          }
+        `}
       >
-        <Icon className="w-6 h-6 !text-gray-700" />
-
+        <Icon
+          className={`h-5 w-5 transition-colors ${
+            isActive ? "text-blue-400" : "group-hover:text-blue-300"
+          }`}
+        />
         <span
-          className={`${
+          className={`text-sm font-medium transition-all ${
             isCollapsed ? "hidden" : "block"
-          } font-medium text-gray-700`}
+          }`}
         >
           {label}
         </span>
@@ -69,43 +77,40 @@ const Sidebar = () => {
     dispatch(setIsSidebarCollapsed(!isSidebarCollapsed));
   };
 
-  const sidebarClassNames = `fixed flex flex-col ${
-    isSidebarCollapsed ? "w-0 md:w-16" : "w-72 md:w-64"
-  } bg-white transition-all duration-300 overflow-hidden h-full shadow-md z-40`;
+  const sidebarClassNames = `fixed flex flex-col h-full bg-blue-950 shadow-xl z-40
+    ${isSidebarCollapsed ? "w-16" : "w-64"} 
+    transition-all duration-300 overflow-hidden`;
 
   return (
     <div className={sidebarClassNames}>
       {/* TOP LOGO */}
-      <div
-        className={`flex gap-3 justify-between md:justify-normal items-center pt-8 ${
-          isSidebarCollapsed ? "px-5" : "px-8"
-        }`}
-      >
-        <Image
-          src="https://inventorymanagements13.s3.us-east-1.amazonaws.com/logo.png"
-          alt="edstock-logo"
-          width={27}
-          height={27}
-          className="rounded w-8"
-        />
-        <h1
-          className={`${
-            isSidebarCollapsed ? "hidden" : "block"
-          } font-extrabold text-2xl`}
+      <div className="flex items-center justify-between p-4 bg-blue-900/30">
+        <div
+          className={`flex items-center gap-3 overflow-hidden transition-all ${
+            isSidebarCollapsed ? "w-0 opacity-0" : "w-full opacity-100"
+          }`}
         >
-          Inventory
-        </h1>
-
+          <div className="flex items-center gap-2 min-w-max pl-2">
+            <Image
+              src="https://inventorymanagements13.s3.us-east-1.amazonaws.com/logo.png"
+              alt="edstock-logo"
+              width={28}
+              height={28}
+              className="rounded-lg filter invert"
+            />
+            <h1 className="text-xl font-bold text-white">Inventory</h1>
+          </div>
+        </div>
         <button
-          className="md:hidden px-3 py-3 bg-gray-100 rounded-full hover:bg-blue-100"
           onClick={toggleSidebar}
+          className="p-1.5 rounded-lg hover:bg-blue-800 transition-colors"
         >
-          <Menu className="w-4 h-4" />
+          <Menu className="h-5 w-5 text-white" />
         </button>
       </div>
 
       {/* LINKS */}
-      <div className="flex-grow mt-8">
+      <div className="flex-grow pt-4 space-y-1">
         <SidebarLink
           href="/dashboard"
           icon={Layout}
@@ -145,8 +150,10 @@ const Sidebar = () => {
       </div>
 
       {/* FOOTER */}
-      <div className={`${isSidebarCollapsed ? "hidden" : "block"} mb-10`}>
-        <p className="text-center text-xs text-gray-500">&copy; 2024 Edstock</p>
+      <div className={`p-4 ${isSidebarCollapsed ? "hidden" : "block"}`}>
+        <p className="text-xs text-center text-gray-400">
+          &copy; {new Date().getFullYear()} Inventory
+        </p>
       </div>
     </div>
   );

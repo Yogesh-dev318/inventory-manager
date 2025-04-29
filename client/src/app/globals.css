@@ -30,3 +30,21 @@ body,
     grid-template-rows: repeat(8, 7.5vh);
   }
 }
+.scroll-smooth::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scroll-smooth::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.scroll-smooth::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.scroll-smooth::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}

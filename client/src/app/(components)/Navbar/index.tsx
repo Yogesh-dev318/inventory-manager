@@ -2,7 +2,7 @@
 
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsDarkMode, setIsSidebarCollapsed } from "@/state";
-import { Bell, Menu, Moon, Settings, Sun } from "lucide-react";
+import { Bell, Menu, Moon, Settings, Sun, Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -23,64 +23,92 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex justify-between items-center w-full mb-7">
-      {/* LEFT SIDE */}
-      <div className="flex justify-between items-center gap-5">
+    <nav className={`flex items-center justify-between w-full px-4 py-3 ${
+      isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-800"
+    } shadow-sm transition-colors duration-200`}>
+      {/* Left Section */}
+      <div className="flex items-center gap-4 flex-1">
         <button
-          className="px-3 py-3 bg-gray-100 rounded-full hover:bg-blue-100"
           onClick={toggleSidebar}
+          className={`p-2 rounded-full hover:bg-opacity-20 ${
+            isDarkMode ? "hover:bg-gray-700" : "hover:bg-gray-100"
+          } transition-colors`}
+          aria-label="Toggle sidebar"
         >
-          <Menu className="w-4 h-4" />
+          <Menu className="h-5 w-5" />
         </button>
 
-        <div className="relative">
-          <input
-            type="search"
-            placeholder="Start type to search groups & products"
-            className="pl-10 pr-4 py-2 w-50 md:w-60 border-2 border-gray-300 bg-white rounded-lg focus:outline-none focus:border-blue-500"
-          />
-
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-non">
-            <Bell className="text-gray-500" size={20} />
-          </div>
-        </div>
-      </div>
-
-      {/* RIGHT SIDE */}
-      <div className="flex justify-between items-center gap-5">
-        <div className="hidden md:flex justify-between items-center gap-5">
-          {/* <div>
-            <button onClick={toggleDarkMode}>
-              {isDarkMode ? (
-                <Sun className="cursor-pointer text-gray-500" size={24} />
-              ) : (
-                <Moon className="cursor-pointer text-gray-500" size={24} />
-              )}
-            </button>
-          </div>
+        {/* Search Bar */}
+        <div className="flex-1 max-w-2xl">
           <div className="relative">
-            <Bell className="cursor-pointer text-gray-500" size={24} />
-            <span className="absolute -top-2 -right-2 inline-flex items-center justify-center px-[0.4rem] py-1 text-xs font-semibold leading-none text-red-100 bg-red-400 rounded-full">
-              3
-            </span>
-          </div> */}
-          {/* <hr className="w-0 h-7 border border-solid border-l border-gray-300 mx-3" /> */}
-          <div className="flex items-center gap-3 cursor-pointer">
-            <Image
-              src="https://inventorymanagements13.s3.us-east-1.amazonaws.com/profile.jpeg"
-              alt="Profile"
-              width={50}
-              height={50}
-              className="rounded-full h-full object-cover"
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Search className="h-5 w-5 text-gray-400" />
+            </div>
+            <input
+              type="search"
+              placeholder="Search groups & products..."
+              className={`w-full pl-10 pr-4 py-2 rounded-lg border ${
+                isDarkMode 
+                  ? "bg-gray-800 border-gray-700 focus:border-blue-500" 
+                  : "bg-gray-50 border-gray-200 focus:border-blue-500"
+              } focus:ring-2 focus:ring-blue-500/30 transition-all`}
             />
-            <span className="font-semibold">Yogesh Choudhary</span>
           </div>
         </div>
-        <Link href="/settings">
-          <Settings className="cursor-pointer text-gray-500" size={24} />
-        </Link>
       </div>
-    </div>
+
+      {/* Right Section */}
+      <div className="flex items-center gap-4 ml-4">
+        {/* Dark Mode Toggle */}
+        {/* <button
+          onClick={toggleDarkMode}
+          className={`p-2 rounded-full hover:bg-opacity-20 ${
+            isDarkMode ? "hover:bg-gray-700" : "hover:bg-gray-100"
+          } transition-colors`}
+          aria-label="Toggle dark mode"
+        >
+          {isDarkMode ? (
+            <Sun className="h-5 w-5" />
+          ) : (
+            <Moon className="h-5 w-5" />
+          )}
+        </button> */}
+
+        {/* Notifications */}
+        <button
+          className={`p-2 rounded-full hover:bg-opacity-20 relative ${
+            isDarkMode ? "hover:bg-gray-700" : "hover:bg-gray-100"
+          } transition-colors`}
+          aria-label="View notifications"
+        >
+          <Bell className="h-5 w-5" />
+          <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+        </button>
+
+        {/* Settings */}
+        <Link
+          href="/settings"
+          className={`p-2 rounded-full hover:bg-opacity-20 ${
+            isDarkMode ? "hover:bg-gray-700" : "hover:bg-gray-100"
+          } transition-colors`}
+          aria-label="Settings"
+        >
+          <Settings className="h-5 w-5" />
+        </Link>
+
+        {/* Profile */}
+        <div className="flex items-center gap-3">
+          <Image
+            src="https://inventorymanagements13.s3.us-east-1.amazonaws.com/profile.jpeg"
+            alt="Profile"
+            width={40}
+            height={40}
+            className="rounded-full border-2 border-transparent hover:border-blue-500 transition-colors"
+          />
+          <span className="hidden md:inline font-medium">Yogesh Choudhary</span>
+        </div>
+      </div>
+    </nav>
   );
 };
 

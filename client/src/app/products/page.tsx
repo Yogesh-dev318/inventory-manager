@@ -1,12 +1,13 @@
 "use client";
 
 import { useCreateProductMutation, useGetProductsQuery } from "@/state/api";
-import { PlusCircleIcon, SearchIcon } from "lucide-react";
+import { PlusCircleIcon, SearchIcon, Star } from "lucide-react";
 import { useState } from "react";
 import Header from "@/app/(components)/Header";
 import Rating from "@/app/(components)/Rating";
 import CreateProductModal from "./CreateProductModal";
 import Image from "next/image";
+// import { Skeleton } from "@/components/ui/skeleton";
 
 type ProductFormData = {
   name: string;
@@ -19,95 +20,115 @@ const Products = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const {
-    data: products,
-    isLoading,
-    isError,
-  } = useGetProductsQuery(searchTerm);
-
+  const { data: products, isLoading, isError } = useGetProductsQuery(searchTerm);
   const [createProduct] = useCreateProductMutation();
+
   const handleCreateProduct = async (productData: ProductFormData) => {
     await createProduct(productData);
   };
 
   if (isLoading) {
-    return <div className="py-4">Loading...</div>;
+    return (
+      <div className="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[...Array(6)].map((_, i) => (
+          <div key={i} className="h-64 bg-gray-200 animate-pulse rounded-xl"></div>
+        ))}
+      </div>
+    );
   }
 
   if (isError || !products) {
     return (
-      <div className="text-center text-red-500 py-4">
-        Failed to fetch products
+      <div className="h-screen flex items-center justify-center">
+        <div className="text-center p-6 bg-red-50 rounded-xl max-w-md">
+          <div className="text-red-600 font-medium mb-2">
+            Failed to load products
+          </div>
+          <button 
+            onClick={() => window.location.reload()}
+            className="text-blue-600 hover:underline"
+          >
+            Try again →
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="mx-auto pb-5 w-full">
-      {/* SEARCH BAR */}
-      <div className="mb-6">
-        <div className="flex items-center border-2 border-gray-200 rounded">
-          <SearchIcon className="w-5 h-5 text-gray-500 m-2" />
-          <input
-            className="w-full py-2 px-4 rounded bg-white"
-            placeholder="Search products..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+    <div className="p-6 max-w-7xl mx-auto">
+      {/* Header Section */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <Header name="Product Catalog" />
+        <div className="w-full sm:w-96">
+          <div className="relative">
+            <SearchIcon className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+            <input
+              placeholder="Search products..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
         </div>
-      </div>
-
-      {/* HEADER BAR */}
-      <div className="flex justify-between items-center mb-6">
-        <Header name="Products" />
         <button
-          className="flex items-center bg-blue-500 hover:bg-blue-700 text-gray-200 font-bold py-2 px-4 rounded"
           onClick={() => setIsModalOpen(true)}
+          className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all"
         >
-          <PlusCircleIcon className="w-5 h-5 mr-2 !text-gray-200" /> Create
-          Product
+          <PlusCircleIcon className="w-5 h-5" />
+          <span>New Product</span>
         </button>
       </div>
 
-      {/* BODY PRODUCTS LIST */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg-grid-cols-3 gap-10 justify-between">
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : (
-          products?.map((product) => (
-            <div
-              key={product.productId}
-              className="border shadow rounded-md p-4 max-w-full w-full mx-auto"
-            >
-              <div className="flex flex-col items-center">
+      {/* Products Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {products.map((product) => (
+          <div
+            key={product.productId}
+            className="group relative bg-white rounded-xl shadow-sm hover:shadow-md transition-all border border-gray-100 overflow-hidden"
+          >
+            <div className="p-4 flex flex-col items-center">
+              <div className="relative w-full aspect-square mb-4 rounded-lg overflow-hidden bg-gray-50">
                 <Image
                   src={`https://inventorymanagements13.s3.us-east-1.amazonaws.com/product${
                     Math.floor(Math.random() * 3) + 1
                   }.png`}
                   alt={product.name}
-                  width={150}
-                  height={150}
-                  className="mb-3 rounded-2xl w-36 h-36"
+                  fill
+                  className="object-cover transition-transform group-hover:scale-105"
                 />
-                <h3 className="text-lg text-gray-900 font-semibold">
-                  {product.name}
-                </h3>
-                <p className="text-gray-800">${product.price.toFixed(2)}</p>
-                <div className="text-sm text-gray-600 mt-1">
-                  Stock: {product.stockQuantity}
-                </div>
-                {product.rating && (
-                  <div className="flex items-center mt-2">
-                    <Rating rating={product.rating} />
-                  </div>
-                )}
               </div>
+              
+              <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                {product.name}
+              </h3>
+              <p className="text-xl font-bold text-blue-600 mb-2">
+                ${product.price.toFixed(2)}
+              </p>
+              
+              <div className="flex items-center gap-2 mb-3">
+                <div className={`px-2.5 py-1 rounded-full text-sm font-medium ${
+                  product.stockQuantity > 0 
+                    ? "bg-green-100 text-green-800" 
+                    : "bg-red-100 text-red-800"
+                }`}>
+                  {product.stockQuantity} in stock
+                </div>
+              </div>
+
+              {product.rating && (
+                <div className="flex items-center gap-1.5">
+                  <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                  <span className="text-sm font-medium text-gray-700">
+                    {product.rating.toFixed(1)}
+                  </span>
+                </div>
+              )}
             </div>
-          ))
-        )}
+          </div>
+        ))}
       </div>
 
-      {/* MODAL */}
       <CreateProductModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
