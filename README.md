@@ -12,3 +12,7 @@
 - **AWS API Gateway**
 - **AWS Amplify**
 - **AWS S3**
+ **ECR**
+- **SNS**
+- **AWS Cloudwatch**
+-  **Docker**
