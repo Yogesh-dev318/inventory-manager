@@ -45,20 +45,20 @@ An inventory management website for managing shoe, profits, expenses, and analyt
 
 ### 📍 Dashboard Overview
 
-![Dashboard Screenshot](<img width="1680" alt="Screenshot 2025-05-02 at 5 00 03 PM" src="https://github.com/user-attachments/assets/2c4057df-06f5-4467-9632-753bbe25d46a" />
-)
-
+![Dashboard Screenshot]()
+<img width="1680" alt="Screenshot 2025-05-02 at 5 00 03 PM" src="https://github.com/user-attachments/assets/2c4057df-06f5-4467-9632-753bbe25d46a" />
 
 ### 📍 Product Management
 
-![Product Management Screenshot](<img width="1021" alt="Screenshot 2025-05-02 at 5 00 38 PM" src="https://github.com/user-attachments/assets/6843db7a-9bcf-402c-a784-624464bc997f" />
-)
+![Product Management Screenshot]()
+<img width="1021" alt="Screenshot 2025-05-02 at 5 00 38 PM" src="https://github.com/user-attachments/assets/6843db7a-9bcf-402c-a784-624464bc997f" />
 <img width="1680" alt="Screenshot 2025-05-02 at 5 00 20 PM" src="https://github.com/user-attachments/assets/dc964db5-aa8c-4450-bc5e-fcf77dd538d0" />
 
 
 ### 📍 Analytics View
 
-![Analytics Screenshot](<img width="1389" alt="Screenshot 2025-05-02 at 5 00 13 PM" src="https://github.com/user-attachments/assets/7725fe66-04ed-4b7d-8854-eac48f812001" />)
+![Analytics Screenshot]()
+<img width="1389" alt="Screenshot 2025-05-02 at 5 00 13 PM" src="https://github.com/user-attachments/assets/7725fe66-04ed-4b7d-8854-eac48f812001" />
 
 ---
 
